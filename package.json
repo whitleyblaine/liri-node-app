@@ -1,0 +1,28 @@
+{
+  "name": "liri",
+  "version": "1.0.0",
+  "description": "A text-based Siri imitation.",
+  "main": "liri.js",
+  "dependencies": {
+    "request": "^2.73.0",
+    "spotify": "^0.3.0",
+    "twitter": "^1.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whitleyblaine/liri-node-app.git"
+  },
+  "keywords": [
+    "liri"
+  ],
+  "author": "Whitley Horn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/whitleyblaine/liri-node-app/issues"
+  },
+  "homepage": "https://github.com/whitleyblaine/liri-node-app#readme"
+}
