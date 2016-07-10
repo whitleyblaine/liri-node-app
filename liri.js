@@ -37,7 +37,7 @@ var randomTextFunction = function() {
 }
 
 var twitterFunction = function() {
-  T.get('statuses/user_timeline', {count: 10}, function(error, tweets, response){
+  T.get('statuses/user_timeline', {count: 20}, function(error, tweets, response){
     if(error) throw error;
     for (var i = 0; i < tweets.length; i++) {
       console.log("Date Added: " + tweets[i].created_at);
