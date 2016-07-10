@@ -2,26 +2,12 @@ console.log("Welcome to Liri!");
 
 var Twitter = require('twitter');
 var keys = require('./keys.js');
-var argv2;
-var argv3;
+var argv2 = process.argv[2];
+var argv3 = process.argv[3];
 
 var fs = require('fs');
-
-if (argv2 == 'do-what-it-says') {
-  fs.readFile('random.txt', 'utf8', (err, data) => {
-  if (err)
-    throw err;
-  else
-    var splitText = data.split(',');
-    argv2 = splitText[0];
-    argv3 = splitText[1];
-  });
-}
-
-if (argv2 != 'do-what-it-says') {
-  argv2 = process.argv[2];
-  argv3 = process.argv[3];
-}
+var request = require('request');
+var spotify = require('spotify');
 
 var T = new Twitter({
   consumer_key: keys.twitterKeys.consumer_key,
@@ -30,7 +16,27 @@ var T = new Twitter({
   access_token_secret: keys.twitterKeys.access_token_secret
 });
 
-if (argv2 == "my-tweets") {
+var randomTextFunction = function() {
+  fs.readFile('random.txt', 'utf8', (err, data) => {
+  if (err)
+    throw err;
+  else
+    var splitText = data.split(',');
+    argv2 = splitText[0];
+    argv3 = splitText[1];
+    if (argv2 == 'do-what-it-says') {
+      randomTextFunction();
+    } else if (argv2 == 'spotify-this-song') {
+      spotifyFunction();
+    } else if (argv2 == 'movie-this') {
+      movieFunction();
+    } else if (argv2 == "my-tweets") {
+      twitterFunction();
+    };
+  });
+}
+
+var twitterFunction = function() {
   T.get('statuses/user_timeline', {count: 10}, function(error, tweets, response){
     if(error) throw error;
     for (var i = 0; i < tweets.length; i++) {
@@ -41,9 +47,7 @@ if (argv2 == "my-tweets") {
 }
 
 
-var spotify = require('spotify');
-
-if (argv2 == 'spotify-this-song') {
+var spotifyFunction = function() {
   if (!argv3) {
     argv3 = 'what\'s my age again?';
   };
@@ -60,9 +64,7 @@ if (argv2 == 'spotify-this-song') {
   });
 }
 
-var request = require('request');
-
-if (argv2 == 'movie-this') {
+var movieFunction = function() {
   if (argv3 == undefined) {argv3 = "Mr. Nobody"};
   var query_url = 'http://www.omdbapi.com/?t=' + argv3 + '&y=&plot=short&r=json';
   request(query_url, function (error, response, body) {
@@ -79,4 +81,20 @@ if (argv2 == 'movie-this') {
       );
     }
   })
+}
+
+if (argv2 == 'do-what-it-says') {
+  randomTextFunction();
+}
+
+if (argv2 == 'spotify-this-song') {
+  spotifyFunction();
+}
+
+if (argv2 == 'movie-this') {
+  movieFunction();
+}
+
+if (argv2 == "my-tweets") {
+  twitterFunction();
 }
